@@ -1,0 +1,110 @@
+Project: Payment Platform Revamp
+Ticket: PAY-1023
+Type: Story
+Priority: High
+Status: In Progress
+Assignee: John Tan
+Reporter: Alice Lim
+
+Description:
+The payment platform currently supports credit card and FPX payments only.
+As part of the Q2 initiative, the system must be enhanced to support additional
+payment methods including e-wallets such as GrabPay, Touch 'n Go, and Boost.
+
+The backend service is implemented using Spring Boot 3.2 with Java 17.
+The frontend is built using React JS version 18 and communicates with the backend
+via REST APIs secured using OAuth 2.0.
+
+Acceptance Criteria:
+1. User should be able to select an e-wallet during checkout.
+2. Payment request must be routed to the correct payment gateway.
+3. System must handle payment callback asynchronously.
+4. Payment status must be updated within 5 seconds.
+5. Audit logs must be created for all payment transactions.
+
+Technical Notes:
+- The payment-service communicates with the wallet-service using Kafka.
+- Topic name: payment.wallet.request
+- Partition key: transactionId
+- Retry policy: exponential backoff with max 3 retries.
+- Dead-letter topic: payment.wallet.dlt
+
+The wallet-service integrates with external providers via HTTPS.
+All requests must be signed using HMAC-SHA256.
+Secrets are stored in HashiCorp Vault and injected at runtime.
+
+---
+
+Project: Payment Platform Revamp
+Ticket: PAY-1041
+Type: Bug
+Priority: Medium
+Status: Open
+Assignee: Sarah Lee
+Reporter: Michael Wong
+
+Description:
+Users reported intermittent failures when making FPX payments during peak hours.
+Error logs indicate timeout exceptions occurring at the bank adapter layer.
+
+Stack trace excerpt:
+java.net.SocketTimeoutException: Read timed out
+    at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:288)
+    at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:314)
+
+The issue seems to occur when concurrent transactions exceed 500 TPS.
+Load testing was performed using JMeter with a ramp-up period of 10 minutes.
+
+Acceptance Criteria:
+1. FPX payments must succeed under 1000 TPS.
+2. Timeout threshold should be configurable.
+3. Proper error message must be returned to frontend.
+4. System should auto-retry failed transactions where applicable.
+
+Proposed Fix:
+- Increase connection pool size.
+- Enable HTTP keep-alive.
+- Add circuit breaker using Resilience4j.
+- Improve monitoring using Prometheus and Grafana.
+
+---
+
+Project: Analytics Platform
+Ticket: ANA-331
+Type: Story
+Priority: Low
+Status: Done
+Assignee: Daniel Ng
+Reporter: Product Team
+
+Description:
+The analytics platform aggregates transaction data for reporting purposes.
+Data is ingested from multiple sources including payment-service, wallet-service,
+and order-service.
+
+Currently, data is processed in batch mode every 24 hours.
+The goal is to support near real-time analytics with a maximum delay of 1 minute.
+
+Technical Approach:
+- Use Apache Kafka Streams for real-time aggregation.
+- Store intermediate results in Redis.
+- Persist final aggregates in PostgreSQL.
+- Expose metrics via REST endpoint /api/v1/analytics/summary
+
+Security Considerations:
+- Sensitive fields such as card number must be masked.
+- Access to analytics endpoints must be restricted to admin users.
+- JWT tokens must be validated for each request.
+
+---
+
+Notes:
+This document contains multiple Jira tickets across different projects.
+It is intended for testing document loaders, text splitters, entity extraction,
+and retrieval-augmented generation pipelines.
+
+The text includes:
+- Multiple sections
+- Repeated domain entities
+- Technical stack references
+- Structured and semi-structured content
