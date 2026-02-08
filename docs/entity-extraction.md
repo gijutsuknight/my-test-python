@@ -45,6 +45,8 @@ Uses a large language model (via API or local) with prompts to extract entities.
 
 **Best for:** Ad-hoc or highly variable entity types, when you need rich context or descriptions, or when you already use an LLM in your pipeline.
 
+**In this repo:** See [`llm-based-extraction/`](../llm-based-extraction/) for a working example (LangChain + OpenAI).
+
 ---
 
 ## Quick comparison
