@@ -8,7 +8,9 @@ A virtual environment keeps this project’s dependencies separate from your sys
 ```
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+# Install dependencies per subproject, e.g.:
+# pip install -r text-chunking/requirements.txt
+# pip install -r spacy/requirements.txt
 ```
 
 ### Option 1: Using `venv` (built into Python)
@@ -56,5 +58,5 @@ source .venv/bin/activate   # macOS / Linux
 ### Notes
 
 - Add `.venv/` to `.gitignore` so the environment is not committed.
-- Install project dependencies after activating:  
-  `pip install -r requirements.txt` (when a `requirements.txt` exists).
+- Each subproject has its own `requirements.txt`; install from that folder, e.g.  
+  `pip install -r text-chunking/requirements.txt` or `pip install -r spacy/requirements.txt`.
