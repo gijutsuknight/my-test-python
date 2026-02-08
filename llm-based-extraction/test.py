@@ -1,7 +1,7 @@
 """
 Test script for LLM-based entity extraction (LangChain).
 Uses OpenAI to extract entities with types and descriptions.
-Loads OPENAI_API_KEY from the project .env file or the environment.
+Loads OPENAI_API_KEY from .env in this folder or the environment.
 """
 import json
 import re
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Load .env from project root (parent of llm-based-extraction)
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+# Load .env from this project folder (llm-based-extraction)
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate

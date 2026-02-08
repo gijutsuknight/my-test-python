@@ -9,11 +9,11 @@ Test script for entity extraction using LangChain and OpenAI: extract entities w
    pip install -r llm-based-extraction/requirements.txt
    ```
 
-2. Set your OpenAI API key. Create a `.env` file at the **project root** (same folder as `text-chunking/`, `spacy/`, etc.):
+2. Set your OpenAI API key. Copy or edit `.env` in this folder (`llm-based-extraction/.env`):
    ```
    OPENAI_API_KEY=your-api-key-here
    ```
-   The script loads this automatically. Do not commit real keys (`.env` is in `.gitignore`).
+   The script loads it automatically. Do not commit real keys (`.env` is in `.gitignore`).
 
 ## Run
 
