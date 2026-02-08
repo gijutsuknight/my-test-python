@@ -13,6 +13,7 @@ source .venv/bin/activate
 # Install dependencies per subproject, e.g.:
 # pip install -r text-chunking/requirements.txt
 # pip install -r spacy/requirements.txt
+# pip install -r gliner/requirements.txt
 ```
 
 ### Option 1: Using `venv` (built into Python)
@@ -61,4 +62,4 @@ source .venv/bin/activate   # macOS / Linux
 
 - Add `.venv/` to `.gitignore` so the environment is not committed.
 - Each subproject has its own `requirements.txt`; install from that folder, e.g.  
-  `pip install -r text-chunking/requirements.txt` or `pip install -r spacy/requirements.txt`.
+  `pip install -r text-chunking/requirements.txt`, `pip install -r spacy/requirements.txt`, or `pip install -r gliner/requirements.txt`.

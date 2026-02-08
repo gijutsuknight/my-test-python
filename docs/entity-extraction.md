@@ -30,6 +30,8 @@ Transformer-based model that takes **entity type labels** at runtime (e.g. "prod
 
 **Best for:** Custom or domain-specific entity types (e.g. legal, medical, product names) without training your own NER model.
 
+**In this repo:** See [`gliner/`](../gliner/) for a working example.
+
 ---
 
 ## 3. LLM-Based Extraction (LangChain / LlamaIndex)
