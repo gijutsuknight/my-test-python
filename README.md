@@ -1,5 +1,7 @@
 # my-test-python
 
+- **[Entity extraction comparison](docs/entity-extraction.md)** — spaCy vs GliNER vs LLM-based (LangChain / LlamaIndex)
+
 ## Creating a virtual environment
 
 A virtual environment keeps this project’s dependencies separate from your system Python and other projects.
