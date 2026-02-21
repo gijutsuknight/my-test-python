@@ -1,4 +1,8 @@
 # Config for test-read-from-file.py (LLM-based extraction — read input from file)
+# provider: "openai" | "gemini"
+# For Gemini set GOOGLE_API_KEY in .env (https://aistudio.google.com/apikey)
 input_file: "input.txt"
+provider: "openai"
 model: "gpt-4o"
+# model: "gemini-2.0-flash"   # when provider is gemini
 temperature: 0

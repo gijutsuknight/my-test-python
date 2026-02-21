@@ -1,9 +1,9 @@
 """
 Test script for LLM-based entity extraction (LangChain).
-Uses OpenAI to extract entities with types and descriptions.
-Loads OPENAI_API_KEY from .env in this folder or the environment.
+Uses OpenAI or Gemini. Loads API keys from .env. Set LLM_PROVIDER=gemini to use Gemini.
 """
 import json
+import os
 import re
 from pathlib import Path
 
@@ -12,8 +12,9 @@ from dotenv import load_dotenv
 # Load .env from this project folder (llm-based-extraction)
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 extraction_prompt = """
 Extract all entities from the following text. For each entity, provide:
@@ -26,7 +27,13 @@ Text: {text}
 Return as JSON array.
 """
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
+_provider = (os.environ.get("LLM_PROVIDER") or "openai").strip().lower()
+if _provider == "gemini":
+    if not os.environ.get("GOOGLE_API_KEY"):
+        raise ValueError("Set GOOGLE_API_KEY in .env to use Gemini (https://aistudio.google.com/apikey)")
+    llm = ChatGoogleGenerativeAI(model=os.environ.get("LLM_MODEL") or "gemini-2.0-flash", temperature=0)
+else:
+    llm = ChatOpenAI(model=os.environ.get("LLM_MODEL") or "gpt-4o", temperature=0)
 prompt = PromptTemplate.from_template(extraction_prompt)
 chain = prompt | llm
 

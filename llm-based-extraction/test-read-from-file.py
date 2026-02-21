@@ -1,15 +1,17 @@
 """
 LLM-based entity extraction: read input text from a file.
-Uses its own config (read-from-file-config.yaml). Loads OPENAI_API_KEY from .env.
+Uses its own config (read-from-file-config.yaml). Supports OpenAI or Gemini via .env keys.
 """
 import json
+import os
 import re
 from pathlib import Path
 
 from dotenv import load_dotenv
 import yaml
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CONFIG_FILE = SCRIPT_DIR / "read-from-file-config.yaml"
@@ -19,7 +21,7 @@ load_dotenv(SCRIPT_DIR / ".env")
 EXTRACTION_PROMPT = """
 Extract all entities from the following text. For each entity, provide:
 - entity_name: The name of the entity
-- entity_type: The type (PERSON, ORG, PRODUCT, CONCEPT, etc.)
+- entity_type: The type (Project, Task, User, etc.)
 - description: A brief description based on context
 
 Text: {text}
@@ -35,6 +37,16 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
+def get_llm(provider: str, model: str, temperature: float):
+    """Return OpenAI or Gemini chat model from config."""
+    provider = (provider or "openai").strip().lower()
+    if provider == "gemini":
+        if not os.environ.get("GOOGLE_API_KEY"):
+            raise ValueError("Set GOOGLE_API_KEY in .env to use Gemini (https://aistudio.google.com/apikey)")
+        return ChatGoogleGenerativeAI(model=model or "gemini-2.0-flash", temperature=temperature)
+    return ChatOpenAI(model=model or "gpt-4o", temperature=temperature)
+
+
 def main() -> None:
     config = load_config()
     input_file = Path(config.get("input_file", "input.txt"))
@@ -43,13 +55,14 @@ def main() -> None:
     if not input_file.exists():
         raise FileNotFoundError(f"Input file not found: {input_file}")
 
-    model_name = config.get("model", "gpt-4o")
+    provider = config.get("provider", "openai")
+    model_name = config.get("model") or ("gpt-4o" if provider == "openai" else "gemini-2.0-flash")
     temperature = float(config.get("temperature", 0))
 
     with open(input_file, "r", encoding="utf-8") as f:
         text = f.read()
 
-    llm = ChatOpenAI(model=model_name, temperature=temperature)
+    llm = get_llm(provider, model_name, temperature)
     prompt = PromptTemplate.from_template(EXTRACTION_PROMPT)
     chain = prompt | llm
 
