@@ -16,7 +16,7 @@ Fetches a single Jira Cloud story by issue key and saves it to a text file. All 
 3. Edit `config.yaml` in this folder:
    - **jira.base_url** — e.g. `https://your-domain.atlassian.net`
    - **jira.issue_key** — e.g. `PROJ-123`
-   - **output.file** — path for the text file (relative to this folder or absolute)
+   - **output.file** — path for the text file (relative to this folder or absolute). Use **{key}** and/or **{summary}** so the filename follows the story, e.g. `"{summary}.txt"` or `"{key} - {summary}.txt"`. The summary is sanitized for use as a filename.
    - **output.fields** — list of sections to include: `key`, `summary`, `status`, `assignee`, `created`, `updated`, `description`, `comments`
 
 ## Run

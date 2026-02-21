@@ -4,8 +4,11 @@ jira:
   issue_key: "PROJ-123"
 
 # Where to write the extracted story and which fields to include
+# For file: use {key} and/or {summary} so the filename follows the story (e.g. "{summary}.txt" or "{key} - {summary}.txt")
 output:
-  file: "story.txt"
+  file: "{summary}.txt"
+  # file: "story.txt"   # fixed name
+  # file: "{key} - {summary}.txt"
   fields:
     - key
     - summary

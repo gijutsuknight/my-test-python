@@ -3,6 +3,7 @@ Extract a single Jira Cloud story by issue key and save it to a text file.
 Config: config.yaml in this folder. Secrets: .env (JIRA_EMAIL, JIRA_API_TOKEN).
 """
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -13,6 +14,16 @@ from jira import JIRA
 # Load .env from this folder
 SCRIPT_DIR = Path(__file__).resolve().parent
 load_dotenv(SCRIPT_DIR / ".env")
+
+
+def sanitize_for_filename(text: str, max_length: int = 80) -> str:
+    """Make a string safe for use as a filename: alphanumeric, spaces → hyphens, truncate."""
+    if not text or not isinstance(text, str):
+        return "story"
+    s = re.sub(r"[^\w\s\-]", "", text)
+    s = re.sub(r"\s+", "-", s.strip())
+    s = s.strip("-") or "story"
+    return s[:max_length].strip("-") if len(s) > max_length else s
 
 
 def load_config() -> dict:
@@ -87,8 +98,12 @@ def main() -> None:
     except Exception as e:
         sys.exit(f"Failed to fetch issue {issue_key}: {e}")
 
+    # Resolve output path: support {key} and {summary} placeholders (filename follows story name)
+    resolved_file = output_file.replace("{key}", issue.key)
+    resolved_file = resolved_file.replace("{summary}", sanitize_for_filename(issue.fields.summary or "story"))
+
     text = build_text(issue, fields)
-    out_path = Path(output_file)
+    out_path = Path(resolved_file)
     if not out_path.is_absolute():
         out_path = SCRIPT_DIR / out_path
     out_path.parent.mkdir(parents=True, exist_ok=True)
