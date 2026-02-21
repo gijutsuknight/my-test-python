@@ -1,0 +1,4 @@
+# Config for test-read-from-file.py (LLM-based extraction — read input from file)
+input_file: "input.txt"
+model: "gpt-4o"
+temperature: 0

@@ -1,6 +1,6 @@
 # LLM-Based Entity Extraction (LangChain)
 
-Test script for entity extraction using LangChain and OpenAI: extract entities with **types** and **descriptions** via a single prompt.
+Extract entities with **types** and **descriptions** using LangChain and OpenAI.
 
 ## Setup
 
@@ -13,12 +13,28 @@ Test script for entity extraction using LangChain and OpenAI: extract entities w
    ```
    OPENAI_API_KEY=your-api-key-here
    ```
-   The script loads it automatically. Do not commit real keys (`.env` is in `.gitignore`).
+   The scripts load it automatically. Do not commit real keys (`.env` is in `.gitignore`).
 
-## Run
+## Programs
+
+### test.py — simplest test (inline text)
+
+No config, no file. Text is defined in the script.
 
 ```bash
 python llm-based-extraction/test.py
 ```
 
-The script uses `gpt-4o` by default. Change the model in `test.py` if needed (e.g. `gpt-4o-mini` for lower cost).
+### test-read-from-file.py — read from file + config
+
+Reads input from a text file. Uses **read-from-file-config.yaml** in this folder:
+
+- **input_file** — path to the .txt file (relative to this folder or absolute)
+- **model** — OpenAI model (e.g. `gpt-4o`, `gpt-4o-mini`)
+- **temperature** — 0 for deterministic output
+
+Put your text in `input.txt` (or set `input_file` in the config), then:
+
+```bash
+python llm-based-extraction/test-read-from-file.py
+```
