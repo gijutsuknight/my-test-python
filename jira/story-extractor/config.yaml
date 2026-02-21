@@ -1,0 +1,17 @@
+# Jira Cloud connection (no secrets here — use .env for JIRA_EMAIL and JIRA_API_TOKEN)
+jira:
+  base_url: "https://your-domain.atlassian.net"
+  issue_key: "PROJ-123"
+
+# Where to write the extracted story and which fields to include
+output:
+  file: "story.txt"
+  fields:
+    - key
+    - summary
+    - status
+    - assignee
+    - created
+    - updated
+    - description
+    - comments

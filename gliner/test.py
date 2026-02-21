@@ -9,7 +9,7 @@ model = GLiNER.from_pretrained("urchade/gliner_medium-v2.1")
 
 text = """
 Apple Inc. was founded by Steve Jobs in Cupertino in 1976. 
-The company now has a market cap of over 3 trillion dollars.
+The company now has a market cap of over 3 trillion dollars. Another year 1990
 """
 
 # Define entity types at runtime (title case works well)
