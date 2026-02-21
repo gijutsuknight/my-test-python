@@ -1,5 +1,5 @@
 """
-Test script for GliNER (Zero-Shot NER).
+Simplest GliNER test: inline text, no file or config.
 Define entity labels at runtime — no training required.
 """
 from gliner import GLiNER
@@ -8,8 +8,8 @@ from gliner import GLiNER
 model = GLiNER.from_pretrained("urchade/gliner_medium-v2.1")
 
 text = """
-Apple Inc. was founded by Steve Jobs in Cupertino in 1976. 
-The company now has a market cap of over 3 trillion dollars. Another year 1990
+Apple Inc. was founded by Steve Jobs in Cupertino in 1976.
+The company now has a market cap of over 3 trillion dollars.
 """
 
 # Define entity types at runtime (title case works well)

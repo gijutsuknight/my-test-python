@@ -1,0 +1,11 @@
+# Config for test-read-from-file.py (GliNER — read input from file)
+input_file: "input.txt"
+model: "urchade/gliner_medium-v2.1"
+threshold: 0.5
+labels:
+  - person
+  - organization
+  - location
+  - date
+  - product
+  - money
