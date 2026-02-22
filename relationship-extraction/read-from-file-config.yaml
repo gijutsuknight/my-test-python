@@ -1,0 +1,6 @@
+# Config for test-read-from-file.py (REBEL relationship extraction)
+input_file: "input.txt"
+model: "Babelscape/rebel-large"
+max_length: 256
+num_beams: 3
+num_return_sequences: 3
